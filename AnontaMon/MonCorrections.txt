@@ -1,0 +1,7 @@
+# Mon Language Corrections Dictionary
+# Format: wrong=correct
+# Lines starting with # are comments
+# Add common Mon word corrections below
+
+# Example corrections (add real Mon words as needed)
+# ပၟိင်=ပၟိၚ်

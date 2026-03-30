@@ -2,31 +2,16 @@
 //  LoikMonKeybaordApp.swift
 //  LoikMonKeybaord
 //
-//  Created by Saik Chan on 31/03/2026.
+//  Main app entry point for the Mon keyboard settings app.
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct LoikMonKeybaordApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
     }
 }
