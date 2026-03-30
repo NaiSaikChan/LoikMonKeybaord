@@ -24,19 +24,11 @@ class KeyboardViewController: UIInputViewController, KeyboardActionHandler {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Use custom input view that supports keyboard click sounds
-        let audioView = AudioEnabledInputView()
-        audioView.translatesAutoresizingMaskIntoConstraints = false
-        inputView = audioView
-        
         setupKeyboardView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Reload settings each time keyboard appears
         settings.reload()
         feedbackManager.reloadSettings()
         feedbackManager.prepare()
@@ -73,6 +65,7 @@ class KeyboardViewController: UIInputViewController, KeyboardActionHandler {
         let hostingController = UIHostingController(rootView: keyboardView)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         hostingController.view.backgroundColor = .clear
+        hostingController.view.isOpaque = false
         
         addChild(hostingController)
         view.addSubview(hostingController.view)
@@ -86,32 +79,26 @@ class KeyboardViewController: UIInputViewController, KeyboardActionHandler {
         ])
         
         self.keyboardHostingController = hostingController
+        
+        // Set initial height
+        let constraint = view.heightAnchor.constraint(equalToConstant: 260)
+        constraint.priority = .defaultHigh
+        constraint.isActive = true
+        heightConstraint = constraint
     }
     
     private func updateHeight() {
-        let screenBounds = view.window?.windowScene?.screen.bounds ?? UIScreen.main.bounds
+        let screenBounds = view.window?.windowScene?.screen.bounds
+            ?? UIScreen.main.bounds
         let isLandscape = screenBounds.width > screenBounds.height
         let targetHeight: CGFloat = isLandscape ? 200 : 260
-        
-        if let existing = heightConstraint {
-            existing.constant = targetHeight
-        } else {
-            let constraint = view.heightAnchor.constraint(equalToConstant: targetHeight)
-            constraint.priority = .defaultHigh
-            constraint.isActive = true
-            heightConstraint = constraint
-        }
+        heightConstraint?.constant = targetHeight
     }
     
     // MARK: - UITextInputDelegate
     
-    override func textWillChange(_ textInput: UITextInput?) {
-        // Called before text changes
-    }
-    
-    override func textDidChange(_ textInput: UITextInput?) {
-        // Called after text changes - update any state if needed
-    }
+    override func textWillChange(_ textInput: UITextInput?) { }
+    override func textDidChange(_ textInput: UITextInput?) { }
     
     // MARK: - KeyboardActionHandler Protocol
     
@@ -137,20 +124,5 @@ class KeyboardViewController: UIInputViewController, KeyboardActionHandler {
     
     func getDocumentContext() -> String? {
         return textDocumentProxy.documentContextBeforeInput
-    }
-}
-
-// MARK: - Custom Input View with Audio Feedback
-
-/// Custom UIInputView subclass that enables standard keyboard click sounds.
-class AudioEnabledInputView: UIInputView, UIInputViewAudioFeedback {
-    var enableInputClicksWhenVisible: Bool { return true }
-    
-    init() {
-        super.init(frame: .zero, inputViewStyle: .keyboard)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -66,7 +66,7 @@ struct MonKeyboardLayouts {
         // Row 1: ဆ တ န မ အ ပ က င သ စ ဟ
         KeyRow(keys: [
             KeyModel("ဆ"), KeyModel("တ"), KeyModel("န"), KeyModel("မ"),
-            KeyModel("အ"), KeyModel("ပ"), KeyModel("က"), KeyModel("င"),
+            KeyModel("အ"), KeyModel("ပ"), KeyModel("က"), KeyModel("ၚ"),
             KeyModel("သ"), KeyModel("စ"), KeyModel("ဟ"),
         ]),
         // Row 2: ေ ျ ိ ် ါ ့ ြ ု ူ း ဒ
